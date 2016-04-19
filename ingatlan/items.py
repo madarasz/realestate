@@ -13,6 +13,7 @@ class IngatlanItem(scrapy.Item):
     terulet = scrapy.Field()
     szobak = scrapy.Field()
     ar = scrapy.Field()
+    tipus = scrapy.Field()
 
     allapot = scrapy.Field()
     komfort = scrapy.Field()
@@ -29,5 +30,3 @@ class IngatlanItem(scrapy.Item):
     kert = scrapy.Field()
     tetoter = scrapy.Field()
     parkolas = scrapy.Field()
-
-    cimsor = scrapy.Field()
