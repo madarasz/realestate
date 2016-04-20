@@ -12,20 +12,21 @@ class IngatlanLinkSpider(CrawlSpider):
         "http://ingatlan.com/listasz/elado+lakas+tegla-epitesu-lakas+xiii-ker"
     ]
 
-    rules = (Rule(LinkExtractor(restrict_xpaths="//a[@class='button next']"),),)
+    rules = (
+         Rule(LinkExtractor(restrict_xpaths="//a[contains(@class,'rowclick')]"), callback="parse_link"),
+        Rule(LinkExtractor(restrict_xpaths="//a[@class='button next']"),),
+    )
 
-    def parse(self, response):
-        le = LinkExtractor(allow="", restrict_xpaths="//a[contains(@class,'rowclick')]", unique=True)
-        for link in le.extract_links(response):
-            yield SplashRequest(
-                link.url,
-                self.parse_ingatlan,
-                endpoint='render.json',
-                args={
-                    'har': 1,
-                    'html': 1,
-                }
-            )
+    def parse_link(self, response):
+        yield SplashRequest(
+            response.url,
+            self.parse_ingatlan,
+            endpoint='render.json',
+            args={
+                'har': 1,
+                'html': 1,
+            }
+        )
 
     def parse_ingatlan(self, response):
         item = IngatlanItem()
