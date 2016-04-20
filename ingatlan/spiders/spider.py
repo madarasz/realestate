@@ -63,9 +63,9 @@ class IngatlanLinkSpider(CrawlSpider):
         # item['mezok'] = response.xpath("//div[@class='paramterers']/table/tbody/tr/td[1]/text()").extract()
 
         for key, value in item.items():
-            if isinstance(value, str) and value.isnumeric():
+            if isinstance(value, unicode) and value.isnumeric():
                 item[key] = int(value)
-            if value == 'nincs megadva' or value == None:
+            elif value == 'nincs megadva' or value == None:
                 item[key] = ''
 
         yield item
@@ -82,4 +82,4 @@ class IngatlanLinkSpider(CrawlSpider):
             if splits[1] == '+':
                 return [int(splits[0]), int(splits[2])]
             else: return text
-        else: return int(splits[0])
+        else: return [int(splits[0]), 0]
